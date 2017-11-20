@@ -14,6 +14,7 @@ public class Practice14GetFontMetricsView extends View {
     String[] texts = {"A", "a", "J", "j", "Â", "â"};
     int top = 200;
     int bottom = 400;
+    private float yOffset;
 
     public Practice14GetFontMetricsView(Context context) {
         super(context);
@@ -44,12 +45,24 @@ public class Practice14GetFontMetricsView extends View {
         // 然后计算出文字的绘制位置，从而让文字上下居中
         // 这种居中算法的优点是，可以让不同的文字的 baseline 对齐
 
+        /*
+        * FontMetrics 是个相对专业的工具类，它提供了几个文字排印
+        * 方面的数值：ascent, descent, top, bottom,  leading。
+        *
+        * baseline:         它的作用是作为文字显示的基准线。
+        * ascent / descent: 它们的作用是限制普通字符的顶部和底部范围。
+        * top / bottom:     它们的作用是限制所有字形（ glyph ）的顶部和底部范围
+        * leading:          指的是行的额外间距，即对于上下相邻的两行，上行的 bottom 线和下行的 top 线的距离
+        * */
+        Paint.FontMetrics metrics = paint2.getFontMetrics();
+        yOffset = -(metrics.ascent + metrics.descent) / 2;
+
         int middle = (top + bottom) / 2;
-        canvas.drawText(texts[0], 100, middle, paint2);
-        canvas.drawText(texts[1], 200, middle, paint2);
-        canvas.drawText(texts[2], 300, middle, paint2);
-        canvas.drawText(texts[3], 400, middle, paint2);
-        canvas.drawText(texts[4], 500, middle, paint2);
-        canvas.drawText(texts[5], 600, middle, paint2);
+        canvas.drawText(texts[0], 100, middle + yOffset, paint2);
+        canvas.drawText(texts[1], 200, middle + yOffset, paint2);
+        canvas.drawText(texts[2], 300, middle + yOffset, paint2);
+        canvas.drawText(texts[3], 400, middle + yOffset, paint2);
+        canvas.drawText(texts[4], 500, middle + yOffset, paint2);
+        canvas.drawText(texts[5], 600, middle + yOffset, paint2);
     }
 }
